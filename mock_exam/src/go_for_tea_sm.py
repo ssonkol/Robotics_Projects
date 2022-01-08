@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+
+#------------ IMPORT PACKAGES ------------------------
 import rospy
 import sys
 import smach
@@ -6,9 +8,19 @@ from smach_ros import IntrospectionServer, SimpleActionState, ServiceState
 from std_msgs.msg import String
 from move_base_msgs.msg import MoveBaseAction
 from mock_exam.srv import Str2Coord, Str2CoordRequest, YOLOLastFrame
-#from itr_pkg.srv import YOLOLastFrame  # Change this to your package name
+from mock_exam.srv import YOLOLastFrame  # Change this to your package name
+
+#------------ PROCESS TO RUN THE CODE ----------------
+
+#roslaunch rosplan_stage_demo empty_stage_single_robot.launch use_default_rviz:=true - launch 
+#roslaunch usb_cam usb_cam-test.launch -launch 
+#roslaunch ros_vosk ros_vosk.launch - launch 
+#rosrun mock_exam string_to_coord.py -put in launch file
+#rosrun itr_pkg yolo_ros.py - you will need to copy all yolo code into this package -put in launch file
+#rosrun mock_exam go_for_tea_sm.py -put in launch file
 
 
+# ------------  CODE FROM THIS POINT ----------------
 class WaitForRequest(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['request_received', 'not_request_received'], output_keys=['in_request_loc'])
@@ -60,9 +72,6 @@ class RobotSMNode:
                                                 'preempted': 'FIND_OBJECT_REQUEST',
                                                 'aborted': 'WAIT_FOR_REQUEST'})
 
-            # If I do not do any remapping, the same variable can be used in the userdata. however, if we don't declare
-            # it as both input and output key, we won't be able to write on that value.
-            # If we see a bottle, we will end the SM (and the program)
             smach.StateMachine.add('SPEAK', DictateRobotState(), transitions={'succeeded': 'WAIT_FOR_REQUEST',
                                                                                 'stop': 'succeeded'})
         return sm

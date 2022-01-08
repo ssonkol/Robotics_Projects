@@ -1,0 +1,5 @@
+<launch>
+  <node name="go_for_tea_sm" pkg="mock_exam" type="go_for_tea_sm.py"/>
+  <node name="string_to_coord_srv" pkg="mock_exam" type="string_to_coord.py" />
+  <node name="yolo_ros_itr" pkg="mock_exam" type="yolo_ros.py"/>
+</launch>

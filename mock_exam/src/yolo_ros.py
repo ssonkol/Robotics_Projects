@@ -16,7 +16,7 @@ class YOLOv4ROSITR:
         self.detector = Detector(gpu_id=0, config_path=r'/opt/darknet/cfg/yolov4.cfg',
                                  weights_path=r'/opt/darknet/yolov4.weights',
                                  lib_darknet_path=r'/opt/darknet/libdarknet.so',
-                                 meta_path= "cfg/coco.data")
+                                 meta_path= "home/ssonl/catkin_ws/src/mock_exam/cfg/coco.data")
 
         self.bridge = CvBridge()
         self.cam_subs = rospy.Subscriber("/usb_cam/image_raw", Image, self.img_callback)
